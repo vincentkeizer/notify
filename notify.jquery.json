@@ -1,0 +1,26 @@
+{
+	"name": "notify",
+	"version": "0.1.0",
+	"title": "jQuery Notify",
+	"description": "The notify plugin makes displaying notifications easy.",
+	"keywords": [ "notify", "notification"  ],
+	"author": {
+		"name": "Vincent Keizer",
+		"email": "vincent@vicreative.nl",
+		"url" : "http://www.vicreative.nl/"
+	},
+	"licenses" : [ {
+			"type": "MIT",
+			"url": "http://opensource.org/licenses/MIT"
+		}, {
+			"type": "GPLv2",
+			"url": "http://opensource.org/licenses/GPL-2.0"
+		}
+	],
+	"dependencies": {
+		"jquery": ">=1.8.3"
+	},
+	"homepage": "http://www.vicreative.nl/Projects/Notify",
+	"docs": "http://www.vicreative.nl/Projects/Notify",
+	"demo": "http://www.vicreative.nl/Projects/Notify"
+}

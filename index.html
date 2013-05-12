@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<script type="text/javascript" src="jquery-1.8.3.js"></script>
+<script type="text/javascript" src="jquery-notify.js"></script>
+<link rel="stylesheet" href="notify.css"></link>
+</head>
+<body>
+    <div class="notification">
+        <span style="font-size:14px">This is a jQuery notify plugin demo.</span>
+    </div>
+    <div id="lipsum">
+    <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac ornare sapien. Maecenas ac libero quis odio pulvinar interdum. Aenean sit amet neque mauris, euismod rhoncus felis. Quisque fringilla porta ligula at aliquet. Sed non nisl mauris, volutpat commodo turpis. Aliquam porttitor arcu sed felis congue egestas. Sed auctor, dolor ac ultrices pellentesque, ligula sapien pellentesque justo, et consequat tellus ante vel lectus. Integer eu est orci, tincidunt tincidunt tortor. Praesent facilisis fringilla sem, nec consectetur odio convallis a. Nunc cursus orci ac urna blandit interdum. Suspendisse tempus varius diam pharetra ultricies.
+    </p>
+    <p>
+    Mauris auctor pretium tincidunt. In hac habitasse platea dictumst. Fusce convallis accumsan lectus, volutpat rhoncus est luctus quis. Phasellus nulla mauris, blandit id fermentum nec, viverra sit amet augue. Ut vel neque vel enim pulvinar ultricies quis in odio. Sed non nisl est. Donec sodales justo at elit rhoncus et auctor urna congue. Suspendisse ultrices vehicula tortor nec lobortis. Integer velit purus, tincidunt quis porta vitae, porta nec dolor.
+    </p>
+    <p>
+    Nam facilisis congue nulla, sed tristique leo accumsan vel. Sed vitae sapien a tellus elementum placerat. Suspendisse sit amet sem ut nisi egestas sagittis. Vestibulum elementum eros eu tellus iaculis eget fermentum dolor molestie. Nulla tellus mi, interdum nec cursus varius, scelerisque at arcu. Cras consectetur enim ac nisi porta accumsan. Phasellus venenatis tempus lectus non commodo. Nam vitae orci sit amet mauris fermentum sagittis. Aenean est ipsum, lacinia nec sollicitudin quis, gravida ut ligula. Ut porttitor luctus nunc. Maecenas placerat risus quis massa vehicula congue quis viverra nulla. Quisque lobortis, nisi sed gravida convallis, turpis tellus lobortis nisi, ut imperdiet sapien enim in nisi. Sed mattis porttitor lacus in adipiscing. Nam porta odio nisl, non sagittis eros. Mauris vel ullamcorper mauris. In lobortis tempus metus, a placerat ante pulvinar vitae.
+    </p>
+    <p>
+    Integer suscipit tellus vulputate odio bibendum eget dictum augue consectetur. Suspendisse rhoncus, nulla eleifend aliquam tincidunt, tellus dui aliquet purus, nec laoreet elit mi quis tortor. Nam odio augue, rhoncus vitae convallis id, dapibus vitae odio. Suspendisse blandit ante nec tellus venenatis ullamcorper consectetur velit sagittis. Nullam aliquet cursus eleifend. Integer bibendum ligula at neque molestie at vestibulum quam tincidunt. Nulla at neque dui, eu sagittis mi. Pellentesque vulputate convallis ultrices.
+    </p>
+    <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac ante odio, eget dapibus urna. Donec sem tellus, luctus vel aliquet et, facilisis sit amet lacus. Fusce blandit ullamcorper nisl, ornare tempus augue ultricies condimentum. Maecenas accumsan urna in sem ultricies condimentum. Cras sodales libero sit amet tortor condimentum varius at eget erat. Cras nec elit a lorem posuere cursus. Donec nibh nisl, hendrerit quis dignissim condimentum, gravida sit amet mi. Curabitur ac magna non ante sodales posuere et eget massa. Nunc porta sapien id nisl rhoncus convallis aliquet tellus feugiat.
+    </p>
+    <a href="#" id="show">show notification</a> 
+    </div>
+    <script type="text/javascript">
+        $(".notification").notify();
+        $("#show").click(function () {
+            $(".notification").notify("show");
+        });
+    </script>
+</body>
+</html>
