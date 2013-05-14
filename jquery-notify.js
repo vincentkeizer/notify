@@ -37,7 +37,7 @@
             var data = $this.data('notify');
             if (data && data.notifier.css('opacity'))
             {
-                // 
+                // hide notifier
                 data.notifier.animate({ 'opacity': 0 }, data.settings.animationDuration)
             }
         },
@@ -48,7 +48,9 @@
             // extend default settings
             var settings = $.extend({
                 'animationDuration': 500,
-                'displayTime' : 3000,
+                'displayTime': 3000,
+                'appendTo': 'body',
+                'autoShow': true
             }, args);
 
             return $(this).each(function () {
@@ -65,17 +67,20 @@
                             'position': 'absolute'
                         }
                     });
+                    // bind events
                     $this.bind("show", events.show)
                          .bind("hide", events.hide);
-                    // append element to nitifier
+                    // append element to notifier
                     notifier.append($this);
-                    $("body").append(notifier);
+                    $(settings.appendTo).append(notifier);
                     $this.data('notify', {
                         settings: settings,
                         notifier: notifier
                     });
-                    // show notification
-                    $this.trigger("show");
+                    if (settings.autoShow) {
+                        // show notification
+                        $this.trigger("show");
+                    }
                 }
             });
         },
