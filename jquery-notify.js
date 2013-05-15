@@ -21,7 +21,7 @@
                 data.notifier.css({
                     'top': '20px',
                     'left': '50%',
-                    'margin-left' : data.notifier.width() / 2 * -1 // position in center
+                    'margin-left' : data.notifier.outerWidth() / 2 * -1 // position in center
                 }).animate({ 'opacity': 1 }, data.settings.animationDuration);
 
                 if (data.settings.displayTime)
