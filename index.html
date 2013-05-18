@@ -6,8 +6,16 @@
 <link rel="stylesheet" href="notify.css"></link>
 </head>
 <body>
-    <div class="notification">
-        <span style="font-size:14px">This is a jQuery notify plugin demo.</span>
+    <div class="notifications" style="display:none">
+        <div class="notification">
+            <span style="font-size:14px">This is a jQuery notify plugin demo.</span>
+        </div>
+        <div class="notification2">
+            <span style="font-size:14px">This is a sticky jQuery notify plugin demo.</span>
+        </div>
+        <div class="notification3">
+            <span style="font-size:14px">This is a jQuery notify plugin demo.</span>
+        </div>
     </div>
     <div id="lipsum">
     <p>
@@ -29,6 +37,12 @@
     </div>
     <script type="text/javascript">
         $(".notification").notify();
+        setTimeout(function () {
+            $(".notification2").notify({sticky : true });
+        }, 1000);
+        setTimeout(function () {
+            $(".notification3").notify();
+        }, 2000);
         $("#show").click(function () {
             $(".notification").notify("show");
         });
