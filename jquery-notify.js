@@ -25,7 +25,7 @@
                 data.notifier.css({
                     'top': queue.getYPosition(data.notifier),
                     'left': '50%',
-                    'margin-left': data.notifier.outerWidth() / 2 * -1 // position in center
+                    'margin-left': data.notifier.outerWidth(true) / 2 * -1 // position in center
                 }).bind('update', function () { $this.trigger('show'); });
 
                 if (!inQueue) {
@@ -90,9 +90,11 @@
                     notifier.append($this);
                     var container = $(settings.appendTo);
                     if (!container.attr('data-notify-id')) {
+                        // initialize notify container
                         var containerId = new Date().getTime();
                         $.notify.queue[containerId] = new Queue();
-                        container.attr('data-notify-id', containerId);
+                        container.attr('data-notify-id', containerId)
+                                 .css('position', 'relative');
                     }
                     container.append(notifier);
                     $this.data('notify', {
