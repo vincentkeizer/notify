@@ -1,9 +1,9 @@
 {
 	"name": "notify",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"title": "Notify",
 	"description": "The notify plugin makes displaying notifications easy.",
-	"keywords": [ "notify", "notification", "messages", "queue"  ],
+	"keywords": [ "notify", "notification", "messages", "queue", "error", "success"  ],
 	"author": {
 		"name": "Vincent Keizer",
 		"email": "vincent@vicreative.nl",

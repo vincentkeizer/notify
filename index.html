@@ -8,13 +8,19 @@
 <body>
     <div class="notifications" style="display:none">
         <div class="notification">
-            <span style="font-size:14px">This is a jQuery notify plugin demo.</span>
+            <span>This is a jQuery notify plugin demo.</span>
         </div>
         <div class="notification2">
-            <span style="font-size:14px">This is a sticky jQuery notify plugin demo.</span>
+            <span>This is a sticky jQuery notify plugin demo.</span>
         </div>
         <div class="notification3">
-            <span style="font-size:14px">This is a jQuery notify plugin demo.</span>
+            <span>This is a jQuery notify plugin demo.</span>
+        </div>
+        <div class="notificationSuccess">
+            <span>This is a sticky success jQuery notify plugin demo.</span>
+        </div>
+        <div class="notificationError">
+            <span>This is a sticky error jQuery notify plugin demo.</span>
         </div>
     </div>
     <div id="lipsum">
@@ -37,6 +43,8 @@
     </div>
     <script type="text/javascript">
         $(".notification").notify();
+        $(".notificationSuccess").notify({ type : "success", sticky : true });
+        $(".notificationError").notify({ type : "error", sticky : true });
         setTimeout(function () {
             $(".notification2").notify({sticky : true });
         }, 1000);

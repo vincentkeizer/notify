@@ -20,21 +20,24 @@
                 // get corresponding queue
                 var queue = $.notify.queue[data.container.attr('data-notify-id')];
                 // add element to notify queue
-                var inQueue = queue.add(data.notifier);
-                // notifier isnt visible yet, show it.
-                data.notifier.css({
-                    'top': queue.getYPosition(data.notifier),
-                    'left': '50%',
-                    'margin-left': data.notifier.outerWidth(true) / 2 * -1 // position in center
-                }).bind('update', function () { $this.trigger('show'); });
+                if (!queue.add(data.notifier)) {
+                    // notifier isnt visible yet, show it and position it.
+                    data.notifier.animate({ 'opacity': 1 }, data.settings.animationDuration)
+                                 .css({ 'top': queue.getYPosition(data.notifier) });
 
-                if (!inQueue) {
-                    // start animation
-                    data.notifier.animate({ 'opacity': 1 }, data.settings.animationDuration);
                     if (data.settings.displayTime && !data.settings.sticky) {
                         // there is a display time set, trigger hide when time expires.
                         setTimeout(function () { $this.trigger('hide'); }, data.settings.displayTime);
                     }
+                }
+                else {
+                    // update of notifier position. start animation to move to new position.
+                    data.notifier.animate({ 'top': queue.getYPosition(data.notifier) });
+                }
+
+                if (data.settings.adjustContent) {
+                    // update top margin of container.
+                    data.container.animate({ 'padding-top': queue.getHeight() }, data.settings.animationDuration);
                 }
             }
         },
@@ -47,6 +50,11 @@
                 data.notifier.animate({ 'opacity': 0 }, data.settings.animationDuration, function () {
                     // remove item from queue
                     $.notify.queue[data.container.attr('data-notify-id')].remove(data.notifier);
+
+                    if (data.settings.adjustContent) {
+                        // update top margin of container.
+                        data.container.animate({ 'padding-top': $.notify.queue[data.container.attr('data-notify-id')].getHeight() }, data.settings.animationDuration);
+                    }
                 });
             }
         },
@@ -60,8 +68,10 @@
                 'displayTime': 3000,
                 'appendTo': 'body',
                 'autoShow': true,
-                'closeText': 'X',
-                'sticky': false
+                'closeText': 'x',
+                'sticky': false,
+                'type': 'default',
+                'adjustContent': false
             }, args);
 
             return $(this).each(function () {
@@ -72,17 +82,18 @@
                 if (!data) {
                     // create notifier
                     var notifier = $('<div />', {
-                        'class': 'notify',
+                        'class': 'notify ' + settings.type,
                         'data-notifier-id': new Date().getTime(),
                         'css': {
                             'opacity': 0,
                             'position': 'absolute'
                         }
-                    }).append($('<span />', {
-                        'class': 'close',
-                        'text': settings.closeText,
-                        'click': function () { $this.trigger('hide'); }
-                    }));
+                    }).bind('update', function () { $this.trigger('show'); })
+                      .append($('<span />', {
+                          'class': 'close',
+                          'text': settings.closeText,
+                          'click': function () { $this.trigger('hide'); }
+                      }));
                     // bind events
                     $this.bind('show', events.show)
                          .bind('hide', events.hide);
@@ -164,8 +175,12 @@
             // remove item from queue.
             var index = $.inArray(element, this._items);
             this._items.splice(index, 1);
+            this.update(index);
+        },
+        update: function (startIndex) {
+            var index = startIndex || 0;
             for (var i = index; i < this._items.length; i++) {
-                // trigger redraw, because queue is changed.
+                // trigger redraw..
                 var el = this._items[i];
                 if (el && el.length) {
                     el.trigger('update');
@@ -181,6 +196,13 @@
                 yPos += el.outerHeight(true);
             }
             return yPos;
+        },
+        getHeight: function () {
+            var height = 0;
+            for (var i = 0; i < this._items.length; i++) {
+                height += this._items[i].outerHeight(true);
+            }
+            return height;
         }
     });
 
