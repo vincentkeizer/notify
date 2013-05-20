@@ -211,4 +211,12 @@
         queue: {}
     };
 
+    // update positioning of notifications after resize.
+    $(window).resize(function () {
+        for (var key in $.notify.queue)
+        {
+            $.notify.queue[key].update();
+        }
+    });
+
 })(jQuery);
