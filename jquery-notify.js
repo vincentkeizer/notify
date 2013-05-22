@@ -32,12 +32,18 @@
                 }
                 else {
                     // update of notifier position. start animation to move to new position.
-                    data.notifier.animate({ 'top': queue.getYPosition(data.notifier) });
+                    var newYPos = queue.getYPosition(data.notifier);
+                    if (data.notifier.position().top != newYPos) {
+                        data.notifier.animate({ 'top': newYPos });
+                    }
                 }
 
-                if (data.settings.adjustContent) {
-                    // update top margin of container.
-                    data.container.animate({ 'padding-top': queue.getHeight() }, data.settings.animationDuration);
+                if (data.container.attr('data-notify-content') == 'adjust' && queue.isLast(data.notifier)) {
+                    // update padding of container to not hide behind notfications.
+                    var newHeight = queue.getHeight();
+                    if (data.container.css('padding-top') != newHeight + 'px') {
+                        data.container.animate({ 'padding-top': newHeight }, data.settings.animationDuration);
+                    }
                 }
             }
         },
@@ -78,7 +84,7 @@
                 var $this = $(this);
                 var data = $this.data('notify');
 
-                // If the plugin hasn't been initialized yet
+                // if the plugin hasn't been initialized yet
                 if (!data) {
                     // create notifier
                     var notifier = $('<div />', {
@@ -104,8 +110,18 @@
                         // initialize notify container
                         var containerId = new Date().getTime();
                         $.notify.queue[containerId] = new Queue();
-                        container.attr('data-notify-id', containerId)
-                                 .css('position', 'relative');
+                        container.attr('data-notify-id', containerId);
+                        var containerPosCss = container.css('position');
+                        if (containerPosCss == 'static') {
+                            // set position to relative for notification positioning.
+                            container.css('position', 'relative');
+                        }
+                        if (settings.adjustContent)
+                        {
+                            // set style of container to adjust for later adjust detection.
+                            container.attr('data-notify-content', 'adjust')
+                        }
+                                 
                     }
                     container.append(notifier);
                     $this.data('notify', {
@@ -203,6 +219,9 @@
                 height += this._items[i].outerHeight(true);
             }
             return height;
+        },
+        isLast: function (element) {
+            return $.inArray(element, this._items) == this._items.length - 1;
         }
     });
 
