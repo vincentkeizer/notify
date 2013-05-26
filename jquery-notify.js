@@ -22,7 +22,8 @@
                 // add element to notify queue
                 if (!queue.add(data.notifier)) {
                     // notifier isnt visible yet, show it and position it.
-                    data.notifier.animate({ 'opacity': 1 }, data.settings.animationDuration)
+                    data.notifier.show()
+                                 .animate({ 'opacity': 1 }, data.settings.animationDuration)
                                  .css({ 'top': queue.getYPosition(data.notifier) });
 
                     if (data.settings.displayTime && !data.settings.sticky) {
@@ -54,6 +55,8 @@
             if (data && data.notifier.css('opacity')) {
                 // hide notifier
                 data.notifier.animate({ 'opacity': 0 }, data.settings.animationDuration, function () {
+                    // hide it 
+                    data.notifier.hide();
                     // remove item from queue
                     $.notify.queue[data.container.attr('data-notify-id')].remove(data.notifier);
 
@@ -77,7 +80,8 @@
                 'closeText': 'x',
                 'sticky': false,
                 'type': 'default',
-                'adjustContent': false
+                'adjustContent': false,
+                'notifyClass' : ''
             }, args);
 
             return $(this).each(function () {
@@ -88,9 +92,10 @@
                 if (!data) {
                     // create notifier
                     var notifier = $('<div />', {
-                        'class': 'notify ' + settings.type,
+                        'class': 'notify ' + settings.type + (settings.notifyClass ? ' ' + settings.notifyClass : ''),
                         'data-notifier-id': new Date().getTime(),
                         'css': {
+                            'display' : 'none',
                             'opacity': 0,
                             'position': 'absolute'
                         }

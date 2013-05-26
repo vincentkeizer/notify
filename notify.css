@@ -72,6 +72,14 @@
     background-image: linear-gradient(to bottom, #C66161 0%, #D61015 100%);
 }
 
+.notify.notification
+{
+    right:0;
+    width:300px;
+    left:auto;
+    padding:20px;
+}
+
 .notify .close
 {
     font-weight:bold;
