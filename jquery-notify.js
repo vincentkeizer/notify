@@ -71,20 +71,32 @@
 
     var methods = {
         init: function (args) {
-            // extend default settings
-            var settings = $.extend({
+            // create default settings
+            var defaults = {
                 'animationDuration': 500,
                 'displayTime': 3000,
                 'appendTo': 'body',
                 'autoShow': true,
                 'closeText': 'x',
                 'sticky': false,
-                'type': 'default',
+                'type': 'info',
                 'adjustContent': false,
                 'notifyClass': '',
-                'opacity' : 1
-            }, args);
+                'opacity': 1
+            };
 
+            //get notification type
+            var type = args && args.type ? args.type : defaults.type;
+
+            // extend default settings with type settings
+            var settings = $.extend({}, defaults, $.notify.settings[type]);
+
+            // extend default settings with arguments
+            settings = $.extend(settings, args);
+
+            // make sure settings has the correct type
+            settings.type = $.notify.settings[type] ? type : defaults.type;
+            
             return $(this).each(function () {
                 var $this = $(this);
                 var data = $this.data('notify');
@@ -233,7 +245,21 @@
 
     // create singleton queue object.
     $.notify = {
-        queue: {}
+        queue: {},
+        settings: {
+            'info': {},
+            'success': {
+                'sticky': true,
+                'type': 'success'
+            },
+            'error': {
+                'sticky': true,
+                'type': 'error'
+            },
+            'notification': {
+                'type' : 'notification'
+            }
+        }
     };
 
     // update positioning of notifications after resize.
