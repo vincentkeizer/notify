@@ -23,7 +23,7 @@
                 if (!queue.add(data.notifier)) {
                     // notifier isnt visible yet, show it and position it.
                     data.notifier.show()
-                                 .animate({ 'opacity': 1 }, data.settings.animationDuration)
+                                 .animate({ 'opacity': data.settings.opacity }, data.settings.animationDuration)
                                  .css({ 'top': queue.getYPosition(data.notifier) });
 
                     if (data.settings.displayTime && !data.settings.sticky) {
@@ -81,7 +81,8 @@
                 'sticky': false,
                 'type': 'default',
                 'adjustContent': false,
-                'notifyClass' : ''
+                'notifyClass': '',
+                'opacity' : 1
             }, args);
 
             return $(this).each(function () {

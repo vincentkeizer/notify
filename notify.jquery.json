@@ -1,6 +1,6 @@
 {
 	"name": "notify",
-	"version": "0.3.2",
+	"version": "0.3.3",
 	"title": "Notify",
 	"description": "The notify plugin makes displaying notifications easy.",
 	"keywords": [ "notify", "notification", "messages", "queue", "error", "success"  ],
@@ -22,5 +22,6 @@
 	},
 	"homepage": "http://www.vicreative.nl/Projects/Notify",
 	"docs": "http://www.vicreative.nl/Projects/Notify",
-	"demo": "http://www.vicreative.nl/Projects/Notify"
+	"demo": "http://www.vicreative.nl/Projects/Notify",
+	"bugs": "http://github.com/vincentkeizer/notify/issues"
 }
