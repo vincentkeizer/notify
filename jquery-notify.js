@@ -1,6 +1,6 @@
 /*
  * File:        jquery-notify.js
- * Version:     0.1
+ * Version:     0.4
  * Author:      Vincent Keizer (www.vicreative.nl)
  * Info:        www.vicreative.nl/projects/notify
  *
@@ -17,13 +17,15 @@
             var $this = $(this);
             var data = $this.data('notify');
             if (data) {
+                // trigger before show event
+                data.notifier.trigger('beforeshow', { element: this, settings: data.settings });
                 // get corresponding queue
                 var queue = $.notify.queue[data.container.attr('data-notify-id')];
                 // add element to notify queue
                 if (!queue.add(data.notifier)) {
                     // notifier isnt visible yet, show it and position it.
                     data.notifier.show()
-                                 .animate({ 'opacity': data.settings.opacity }, data.settings.animationDuration)
+                                 .animate({ 'opacity': data.settings.opacity }, data.settings.animationDuration, function () { $(this).trigger('aftershow', { element: $this[0], settings: data.settings }); })
                                  .css({ 'top': queue.getYPosition(data.notifier) });
 
                     if (data.settings.displayTime && !data.settings.sticky) {
@@ -53,10 +55,13 @@
             var $this = $(this);
             var data = $this.data('notify');
             if (data && data.notifier.css('opacity')) {
+                // trigger before hide event
+                data.notifier.trigger('beforehide', { element: this, settings: data.settings });
                 // hide notifier
                 data.notifier.animate({ 'opacity': 0 }, data.settings.animationDuration, function () {
+                    var notifier = $(this);
                     // hide it 
-                    data.notifier.hide();
+                    notifier.hide();
                     // remove item from queue
                     $.notify.queue[data.container.attr('data-notify-id')].remove(data.notifier);
 
@@ -64,6 +69,8 @@
                         // update top margin of container.
                         data.container.animate({ 'padding-top': $.notify.queue[data.container.attr('data-notify-id')].getHeight() }, data.settings.animationDuration);
                     }
+                    // trigger after hide event
+                    notifier.trigger('afterhide', { element: $this[0], settings: data.settings });
                 });
             }
         },
@@ -82,7 +89,13 @@
                 'type': 'info',
                 'adjustContent': false,
                 'notifyClass': '',
-                'opacity': 1
+                'opacity': 1,
+
+                // callbacks
+                'beforeShow': null,
+                'beforeHide': null,
+                'afterShow': null,
+                'afterHide': null
             };
 
             //get notification type
@@ -96,7 +109,7 @@
 
             // make sure settings has the correct type
             settings.type = $.notify.settings[type] ? type : defaults.type;
-            
+
             return $(this).each(function () {
                 var $this = $(this);
                 var data = $this.data('notify');
@@ -108,19 +121,27 @@
                         'class': 'notify ' + settings.type + (settings.notifyClass ? ' ' + settings.notifyClass : ''),
                         'data-notifier-id': new Date().getTime(),
                         'css': {
-                            'display' : 'none',
+                            'display': 'none',
                             'opacity': 0,
                             'position': 'absolute'
                         }
-                    }).bind('update', function () { $this.trigger('show'); })
+                    }).bind({
+                        'update': function () { $this.trigger('show'); },
+                        'beforeshow': settings.beforeShow,
+                        'beforehide': settings.beforeHide,
+                        'aftershow': settings.afterShow,
+                        'afterhide': settings.afterHide
+                    })
                       .append($('<span />', {
                           'class': 'close',
                           'text': settings.closeText,
                           'click': function () { $this.trigger('hide'); }
                       }));
                     // bind events
-                    $this.bind('show', events.show)
-                         .bind('hide', events.hide);
+                    $this.bind({
+                        'show': events.show,
+                        'hide': events.hide
+                    });
                     // append element to notifier
                     notifier.append($this);
                     var container = $(settings.appendTo);
@@ -134,12 +155,11 @@
                             // set position to relative for notification positioning.
                             container.css('position', 'relative');
                         }
-                        if (settings.adjustContent)
-                        {
+                        if (settings.adjustContent) {
                             // set style of container to adjust for later adjust detection.
-                            container.attr('data-notify-content', 'adjust')
+                            container.attr('data-notify-content', 'adjust');
                         }
-                                 
+
                     }
                     container.append(notifier);
                     $this.data('notify', {
@@ -257,15 +277,14 @@
                 'type': 'error'
             },
             'notification': {
-                'type' : 'notification'
+                'type': 'notification'
             }
         }
     };
 
     // update positioning of notifications after resize.
     $(window).resize(function () {
-        for (var key in $.notify.queue)
-        {
+        for (var key in $.notify.queue) {
             $.notify.queue[key].update();
         }
     });
