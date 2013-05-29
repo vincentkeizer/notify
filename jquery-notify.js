@@ -279,6 +279,10 @@
             'notification': {
                 'type': 'notification'
             }
+        },
+        create: function (text, options)
+        {
+            return $("<span />", { text : text }).notify(options);
         }
     };
 
