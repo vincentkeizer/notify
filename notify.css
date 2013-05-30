@@ -93,8 +93,10 @@
     color: #FFFFFF;
     cursor:pointer;
     opacity: 0.8;
+    filter:alpha(opacity=80);
 }
 
 .notify .close:hover {
     opacity:1;
+    filter:alpha(opacity=100);
 }
