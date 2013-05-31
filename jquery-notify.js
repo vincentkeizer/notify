@@ -21,10 +21,9 @@
                 return queue.getYPosition(data.notifier);
             }
             // calculate position for scrolling.
-            var containerPos = data.container.position().top;
             var queuePos = queue.getYPosition(data.notifier);
-            var pos = queuePos + $(document).scrollTop() - containerPos;
-            return pos < containerPos ? queuePos : pos; // do not position above psoition of container
+            var pos = queuePos + $(document).scrollTop() - data.container.position().top;
+            return pos < 0 ? queuePos : pos; // do not position above psoition of container
         }
     };
 
@@ -178,7 +177,7 @@
                             container.attr('data-notify-adjust', 'content');
                         }
                         if (settings.adjustScroll) {
-                            container.attr('data-notify-adjust', 'scroll')
+                            container.attr('data-notify-adjust', 'scroll');
                         }
 
                     }
@@ -310,7 +309,7 @@
     // update positioning of notifications after resize.
     $(window).resize(function () {
         for (var key in $.notify.queue) {
-            $.notify.queue[key].update('resize');
+            $.notify.queue[key].update();
         }
     });
 
