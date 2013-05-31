@@ -73,7 +73,7 @@
                     notifier.trigger('afterhide', { element: $this[0], settings: data.settings });
                 });
             }
-        },
+        }
     };
 
     var methods = {
@@ -86,6 +86,7 @@
                 'autoShow': true,
                 'closeText': 'x',
                 'sticky': false,
+                'style': 'bar',
                 'type': 'info',
                 'adjustContent': false,
                 'notifyClass': '',
@@ -118,7 +119,7 @@
                 if (!data) {
                     // create notifier
                     var notifier = $('<div />', {
-                        'class': 'notify ' + settings.type + (settings.notifyClass ? ' ' + settings.notifyClass : ''),
+                        'class': 'notify ' + settings.style + ' ' + settings.type + (settings.notifyClass ? ' ' + settings.notifyClass : ''),
                         'data-notifier-id': new Date().getTime(),
                         'css': {
                             'display': 'none',
@@ -131,8 +132,10 @@
                         'beforehide': settings.beforeHide,
                         'aftershow': settings.afterShow,
                         'afterhide': settings.afterHide
-                    })
-                      .append($('<span />', {
+                    }).append($('<span />', { // add icon for customization
+                        'class': 'icon' 
+                    }))
+                      .append($('<span />', { // add close icon
                           'class': 'close',
                           'text': settings.closeText,
                           'click': function () { $this.trigger('hide'); }
@@ -276,12 +279,12 @@
                 'sticky': true,
                 'type': 'error'
             },
-            'notification': {
-                'type': 'notification'
+            'warning': {
+                'sticky': true,
+                'type': 'warning'
             }
         },
-        create: function (text, options)
-        {
+        create: function (text, options) {
             return $("<span />", { text : text }).notify(options);
         }
     };

@@ -23,7 +23,10 @@
             <span>This is a sticky error jQuery notify plugin demo.</span>
         </div>
         <div class="notificationNotification">
-            <span>This is a sticky notification jQuery notify plugin demo.</span>
+            <span>This is a sticky jQuery notify plugin demo with style set to "box".</span>
+        </div>
+        <div class="notificationWarning">
+            <span>This is a sticky warning jQuery notify plugin demo.</span>
         </div>
     </div>
     <div id="lipsum">
@@ -48,7 +51,8 @@
         $(".notification").notify();
         $(".notificationSuccess").notify({ type : "success", sticky : true });
         $(".notificationError").notify({ type: "error", sticky: true });
-        $(".notificationNotification").notify({ type: "notification", sticky: true });
+        $(".notificationWarning").notify({ type: "warning", sticky: true });
+        $(".notificationNotification").notify({ style: "box", type : "warning", sticky: true });
         setTimeout(function () {
             $(".notification2").notify({sticky : true });
         }, 1000);
