@@ -41,12 +41,9 @@
                     }
                 }
 
-                if (data.container.attr('data-notify-content') == 'adjust' && queue.isLast(data.notifier)) {
+                if (data.container.attr('data-notify-adjust') == 'content' && queue.isLast(data.notifier)) {
                     // update padding of container to not hide behind notfications.
-                    var newHeight = queue.getHeight();
-                    if (data.container.css('padding-top') != newHeight + 'px') {
-                        data.container.animate({ 'padding-top': newHeight }, data.settings.animationDuration);
-                    }
+                    data.container.stop(true).animate({ 'padding-top': queue.getHeight() }, data.settings.animationDuration);
                 }
             }
         },
@@ -65,9 +62,9 @@
                     // remove item from queue
                     $.notify.queue[data.container.attr('data-notify-id')].remove(data.notifier);
 
-                    if (data.settings.adjustContent) {
-                        // update top margin of container.
-                        data.container.animate({ 'padding-top': $.notify.queue[data.container.attr('data-notify-id')].getHeight() }, data.settings.animationDuration);
+                    if (data.container.attr('data-notify-adjust') == 'content') {
+                        // update top padding of container.
+                        data.container.stop(true).animate({ 'padding-top': $.notify.queue[data.container.attr('data-notify-id')].getHeight() }, data.settings.animationDuration);
                     }
                     // trigger after hide event
                     notifier.trigger('afterhide', { element: $this[0], settings: data.settings });
@@ -160,7 +157,7 @@
                         }
                         if (settings.adjustContent) {
                             // set style of container to adjust for later adjust detection.
-                            container.attr('data-notify-content', 'adjust');
+                            container.attr('data-notify-adjust', 'content');
                         }
 
                     }
