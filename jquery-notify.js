@@ -11,6 +11,23 @@
  */
 (function ($) {
     // Events for notify
+
+    var helpers = {
+        // gets the position of the notifier
+        getYPosition: function (data, queue) {
+            if (data.container.attr('data-notify-adjust') != 'scroll')
+            {
+                // just the position in the queue
+                return queue.getYPosition(data.notifier);
+            }
+            // calculate position for scrolling.
+            var containerPos = data.container.position().top;
+            var queuePos = queue.getYPosition(data.notifier);
+            var pos = queuePos + $(document).scrollTop() - containerPos;
+            return pos < containerPos ? queuePos : pos; // do not position above psoition of container
+        }
+    };
+
     var events = {
         // Event fired when notify shows.
         show: function () {
@@ -26,7 +43,7 @@
                     // notifier isnt visible yet, show it and position it.
                     data.notifier.show()
                                  .animate({ 'opacity': data.settings.opacity }, data.settings.animationDuration, function () { $(this).trigger('aftershow', { element: $this[0], settings: data.settings }); })
-                                 .css({ 'top': queue.getYPosition(data.notifier) });
+                                 .css({ 'top': helpers.getYPosition(data, queue) });
 
                     if (data.settings.displayTime && !data.settings.sticky) {
                         // there is a display time set, trigger hide when time expires.
@@ -35,15 +52,15 @@
                 }
                 else {
                     // update of notifier position. start animation to move to new position.
-                    var newYPos = queue.getYPosition(data.notifier);
+                    var newYPos = helpers.getYPosition(data, queue);
                     if (data.notifier.position().top != newYPos) {
-                        data.notifier.animate({ 'top': newYPos });
+                        data.notifier.animate({ 'top': newYPos }, { queue : false });
                     }
                 }
 
                 if (data.container.attr('data-notify-adjust') == 'content' && queue.isLast(data.notifier)) {
                     // update padding of container to not hide behind notfications.
-                    data.container.stop(true).animate({ 'padding-top': queue.getHeight() }, data.settings.animationDuration);
+                    data.container.animate({ 'padding-top': queue.getHeight() }, { queue: false }, data.settings.animationDuration);
                 }
             }
         },
@@ -64,7 +81,7 @@
 
                     if (data.container.attr('data-notify-adjust') == 'content') {
                         // update top padding of container.
-                        data.container.stop(true).animate({ 'padding-top': $.notify.queue[data.container.attr('data-notify-id')].getHeight() }, data.settings.animationDuration);
+                        data.container.animate({ 'padding-top': $.notify.queue[data.container.attr('data-notify-id')].getHeight() }, { queue : false }, data.settings.animationDuration);
                     }
                     // trigger after hide event
                     notifier.trigger('afterhide', { element: $this[0], settings: data.settings });
@@ -86,6 +103,7 @@
                 'style': 'bar',
                 'type': 'info',
                 'adjustContent': false,
+                'adjustScroll': false,
                 'notifyClass': '',
                 'opacity': 1,
 
@@ -158,6 +176,9 @@
                         if (settings.adjustContent) {
                             // set style of container to adjust for later adjust detection.
                             container.attr('data-notify-adjust', 'content');
+                        }
+                        if (settings.adjustScroll) {
+                            container.attr('data-notify-adjust', 'scroll')
                         }
 
                     }
@@ -288,6 +309,13 @@
 
     // update positioning of notifications after resize.
     $(window).resize(function () {
+        for (var key in $.notify.queue) {
+            $.notify.queue[key].update('resize');
+        }
+    });
+
+    // update positioning of notifications after scroll when adjustScroll is set
+    $(window).scroll(function () {
         for (var key in $.notify.queue) {
             $.notify.queue[key].update();
         }
