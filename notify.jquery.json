@@ -1,6 +1,6 @@
 {
 	"name": "notify",
-	"version": "0.4.3",
+	"version": "0.4.4",
 	"title": "Notify",
 	"description": "The notify plugin makes displaying notifications easy.",
 	"keywords": [ "notify", "notification", "messages", "queue", "error", "success", "warning"  ],

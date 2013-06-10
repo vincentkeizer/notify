@@ -41,8 +41,8 @@
                 if (!queue.add(data.notifier)) {
                     // notifier isnt visible yet, show it and position it.
                     data.notifier.show()
-                                 .animate({ 'opacity': data.settings.opacity }, data.settings.animationDuration, function () { $(this).trigger('aftershow', { element: $this[0], settings: data.settings }); })
-                                 .css({ 'top': helpers.getYPosition(data, queue) });
+                        .animate({ 'opacity': data.settings.opacity }, data.settings.animationDuration, function () { $(this).trigger('aftershow', { element: $this[0], settings: data.settings }); })
+                        .css({ 'top': helpers.getYPosition(data, queue) });
 
                     if (data.settings.displayTime && !data.settings.sticky) {
                         // there is a display time set, trigger hide when time expires.
@@ -55,7 +55,17 @@
                     if (data.notifier.position().top != newYPos) {
                         data.notifier.animate({ 'top': newYPos }, { queue : false });
                     }
+                    if (data.settings.widthAdjust) {
+                        // reset width when adjusted
+                        data.notifier.width("");
+                        data.settings.widthAdjust = false;
+                    }
                 }
+                if (data.notifier.outerWidth(true) > $(window).width()) {
+                    // resize to window size when size exteeds window
+                    data.settings.widthAdjust = true;
+                    data.notifier.outerWidth($(window).width() - data.notifier.css('padding-left').replace('px', ''));
+                };
 
                 if (data.container.attr('data-notify-adjust') == 'content' && queue.isLast(data.notifier)) {
                     // update padding of container to not hide behind notfications.
