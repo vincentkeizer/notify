@@ -61,10 +61,10 @@
                         data.settings.widthAdjust = false;
                     }
                 }
-                if (data.notifier.outerWidth(true) > $(window).width()) {
+                if (data.notifier.outerWidth(true) > $(document).width()) {
                     // resize to window size when size exteeds window
                     data.settings.widthAdjust = true;
-                    data.notifier.outerWidth($(window).width() - data.notifier.css('padding-left').replace('px', ''));
+                    data.notifier.outerWidth($(document).width() - data.notifier.css('padding-left').replace('px', ''));
                 };
 
                 if (data.container.attr('data-notify-adjust') == 'content' && queue.isLast(data.notifier)) {
