@@ -64,7 +64,7 @@
                 if (data.notifier.outerWidth(true) > $(document).width()) {
                     // resize to window size when size exteeds window
                     data.settings.widthAdjust = true;
-                    data.notifier.outerWidth($(document).width() - data.notifier.css('padding-left').replace('px', ''));
+                    data.notifier.outerWidth($(window).width() - data.notifier.css('padding-left').replace('px', ''));
                 };
 
                 if (data.container.attr('data-notify-adjust') == 'content' && queue.isLast(data.notifier)) {
