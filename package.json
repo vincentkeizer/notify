@@ -1,0 +1,37 @@
+{
+  "name": "jquery-notifier",
+  "version": "1.0.0",
+  "description": "jQuery Notify is a jQuery plugin that easily displays html notifications.",
+  "main": "src/jquery-notify.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "uglifyjs \"src/jquery-notify.js\" -o \"lib/jquery-notify.min.js\" && node-sass src/notify.scss lib/notify.css & cleancss  lib/notify.css -o lib/notify.min.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincentkeizer/notify.git"
+  },
+  "keywords": [
+    "jquery",
+    "notify",
+    "notification",
+    "notifications",
+    "message",
+    "messaging",
+    "inform"
+  ],
+  "author": "vincentkeizer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vincentkeizer/notify/issues"
+  },
+  "dependencies": {
+    "jquery": ">=1.8"
+  },
+  "devDependencies": {
+    "uglify-js": "^3.5.4",
+    "node-sass": "^4.11.0",
+    "clean-css-cli": "^4.3.0"
+  },
+  "homepage": "https://github.com/vincentkeizer/notify#readme"
+}
