@@ -1,6 +1,6 @@
 {
   "name": "jquery-notifier",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "jQuery Notify is a jQuery plugin that easily displays html notifications.",
   "main": "src/jquery-notify.js",
   "scripts": {
